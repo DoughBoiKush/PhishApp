@@ -11,9 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import tcss450.uw.edu.phishapp.model.Credentials;
 import tcss450.uw.edu.phishapp.model.Credentials.Builder;
+import tcss450.uw.edu.phishapp.utils.SendPostAsyncTask;
 
 
 /**
@@ -36,6 +41,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
 
 
     private OnLoginFragmentInteractionListener mListener;
+    public Credentials mCredentials;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -92,6 +98,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         EditText email = (EditText)v.findViewById(R.id.login_editText_email);
         EditText pw = (EditText)v.findViewById(R.id.login_editText_password);
 
+        email.setText("test@test");
+        pw.setText("test123");
 
         return v;
 
@@ -161,7 +169,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
 
         if (mListener != null) {
             switch (v.getId()) {
-                case R.id.login_button_login: mListener.onLoginSuccess(b.build(), "hah");
+                case R.id.login_button_login: mListener.onLoginSuccess(b.build(), "this is the jwt");
                     break;
                 case R.id.login_button_register: mListener.onRegisterClicked();
                     break;
@@ -213,9 +221,76 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
             result = false;
         }
 
+        if (result) {
+            Log.wtf("ACTACT","I wanna fix this damn it!!!!!!!!");
+
+            Credentials credentials = new Credentials.Builder(
+                    email.getText().toString(),
+                    password.getText().toString())
+                    .build();
+            //build the web service URL
+            Uri uri = new Uri.Builder()
+                    .scheme("https")
+                    .appendPath(getString(R.string.ep_base_url)) .appendPath(getString(R.string.ep_login)) .build();
+            //build the JSONObject
+            JSONObject msg = credentials.asJSONObject();
+            mCredentials = credentials;
+            //instantiate and execute the AsyncTask.
+            new SendPostAsyncTask.Builder(uri.toString(), msg)
+                    .onPreExecute(this::handleLoginOnPre)
+                    .onPostExecute(this::handleLoginOnPost)
+                    .onCancelled(this::handleErrorsInTask)
+                    .build().execute();
+        }
+
+
 
         return result;
     }
+
+    /**
+     * Handle errors that may occur during the AsyncTask.
+     * @param result the error message provide from the AsyncTask */
+    private void handleErrorsInTask(String result) {
+        Log.e("ASYNC_TASK_ERROR", result);
+    }
+
+    /**
+     * Handle the setup of the UI before the HTTP call to the webservice.
+     */
+    private void handleLoginOnPre() {
+        mListener.onWaitFragmentInteractionShow();
+    }
+
+    private void handleLoginOnPost(String result) {
+        try {
+            JSONObject resultsJSON = new JSONObject(result);
+            boolean success =
+                    resultsJSON.getBoolean(
+                            getString(R.string.keys_json_login_success));
+            if (success) {
+//Login was successful. Switch to the loadSuccessFragment.
+                mListener.onLoginSuccess(mCredentials,
+                        resultsJSON.getString(
+                                getString(R.string.keys_json_login_jwt)));
+                return;
+            } else {
+                //Login was unsuccessful. Don’t switch fragments and
+                // inform the user
+                ((TextView) getView().findViewById(R.id.login_editText_email))
+                        .setError("Login Unsuccessful");
+            }
+            mListener.onWaitFragmentInteractionHide();
+        } catch (JSONException e) {
+            //It appears that the web service did not return a JSON formatted
+            //String or it did not have what we expected in it.
+            Log.e("JSON_PARSE_ERROR",  result
+                    + System.lineSeparator()
+                    + e.getMessage());
+            mListener.onWaitFragmentInteractionHide();
+            ((TextView) getView().findViewById(R.id.login_editText_email))
+                    .setError("Login Unsuccessful");
+        } }
 
     /**
      * This interface must be implemented by activities that contain this
@@ -227,7 +302,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnLoginFragmentInteractionListener {
+    public interface OnLoginFragmentInteractionListener extends WaitFragment.OnFragmentInteractionListener{
 
         void onLoginSuccess(Credentials id, String jwt);
 

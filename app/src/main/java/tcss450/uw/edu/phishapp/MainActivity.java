@@ -1,6 +1,7 @@
 package tcss450.uw.edu.phishapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnL
 
 
    // LoginFragment lf;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,16 +40,22 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnL
     @Override
     public void onLoginSuccess(Credentials id, String jwt) {
         //Log.wtf("MainACTIVITY", "inside login sucess");
-        SuccessFragment successFragment;
-        successFragment = new SuccessFragment();
+//        HomeActivity success;
+//        success= new HomeActivity();
 
-        Bundle args = new Bundle();
-        args.putSerializable("info", id.getEmail().toString());
-        successFragment.setArguments(args);
-        FragmentTransaction transaction = getSupportFragmentManager()
-                .beginTransaction() .replace(R.id.frame_main_container, successFragment) .addToBackStack(null);
-        // Commit the transaction
-        transaction.commit();
+        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+        intent.putExtra("info",id.getEmail().toString() );
+        intent.putExtra(getString(R.string.keys_intent_jwt), jwt);
+
+        startActivity(intent);
+//
+//        Bundle args = new Bundle();
+//        args.putSerializable("info", id.getEmail().toString());
+//        successFragment.setArguments(args);
+//        FragmentTransaction transaction = getSupportFragmentManager()
+//                .beginTransaction() .replace(R.id.frame_main_container, successFragment) .addToBackStack(null);
+//        // Commit the transaction
+//        transaction.commit();
         //successFragment.updateContent("u got it!");
         //}
     }
@@ -113,5 +121,22 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnL
 
 
         //lf.updateInfo(id.getEmail().toString(),id.getPassword().toString());
+    }
+
+    @Override
+    public void onWaitFragmentInteractionShow() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.frame_main_container, new WaitFragment(), "WAIT")
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void onWaitFragmentInteractionHide() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .remove(getSupportFragmentManager().findFragmentByTag("WAIT"))
+                .commit();
     }
 }
