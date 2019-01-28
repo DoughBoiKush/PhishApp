@@ -23,12 +23,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tcss450.uw.edu.phishapp.blog.BlogPost;
+import tcss450.uw.edu.phishapp.setlist.SetListPost;
 import tcss450.uw.edu.phishapp.utils.GetAsyncTask;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
         , BlogFragment.OnListFragmentInteractionListener
         , BlogPostFragment.OnFragmentInteractionListener
+        , SetListFragment.OnListFragmentInteractionListener
+        , SetListPostFragment.OnFragmentInteractionListener
         , WaitFragment.OnFragmentInteractionListener{
 
 
@@ -152,6 +155,19 @@ public class HomeActivity extends AppCompatActivity
                     .addHeaderField("authorization", mJwToken) //add the JWT as a header
                     .build().execute();
 
+        } else if (id == R.id.nav_set_lists){
+            Uri uri = new Uri.Builder()
+                    .scheme("https")
+                    .appendPath(getString(R.string.ep_base_url))
+                    .appendPath(getString(R.string.ep_phish))
+                    .appendPath(getString(R.string.ep_setlists))
+                    .appendPath(getString(R.string.ep_recent))
+                    .build();
+            new GetAsyncTask.Builder(uri.toString())
+                    .onPreExecute(this::onWaitFragmentInteractionShow)
+                    .onPostExecute(this::handleSetListGetOnPostExecute)
+                    .addHeaderField("authorization", mJwToken) //add the JWT as a header
+                    .build().execute();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -249,6 +265,56 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
+    private void handleSetListGetOnPostExecute(final String result) {
+        // Parse JSON
+        try {
+            JSONObject root = new JSONObject(result);
+            if (root.has("response")) {
+                JSONObject response = root.getJSONObject("response");
+                if (response.has("data")) {
+                    JSONArray data = response.getJSONArray("data");
+                    List<SetListPost> setLists = new ArrayList<>();
+
+                    for (int i = 0; i < data.length(); i++) {
+                        JSONObject jsonSetList = data.getJSONObject(i);
+                        setLists.add(new SetListPost.Builder(jsonSetList.getString("location"),
+                                jsonSetList.getString("long_date"),
+                                jsonSetList.getString("venue"))
+                                .addURL(jsonSetList.getString("url"))
+                                .addSetListNotes(jsonSetList.getString("setlistnotes"))
+                                .addSetListData(jsonSetList.getString("setlistdata"))
+                                .build());
+                    }
+
+                    SetListPost[] setListsAsArray = new SetListPost[setLists.size()];
+                    setListsAsArray = setLists.toArray(setListsAsArray);
+
+                    Bundle args = new Bundle();
+                    args.putSerializable(SetListFragment.ARG_SETLIST_LIST, setListsAsArray);
+                    Fragment frag = new SetListFragment();
+                    frag.setArguments(args);
+
+                    onWaitFragmentInteractionHide();
+                    loadFragment(frag);
+                } else {
+                    Log.e("ERROR!", "No data array");
+                    // Notify user
+                    onWaitFragmentInteractionHide();
+                }
+            } else {
+                Log.e("ERROR!", "No response");
+                // Notify user
+                onWaitFragmentInteractionHide();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.e("ERROR!", e.getMessage());
+            // Notify user
+            onWaitFragmentInteractionHide();
+        }
+    }
+
+
     private void loadFragment(Fragment frag) {
         FragmentTransaction transaction = getSupportFragmentManager()
                 .beginTransaction()
@@ -256,12 +322,21 @@ public class HomeActivity extends AppCompatActivity
                 .addToBackStack(null);
         transaction.commit();
     }
-//    private void loadFragment(Fragment frag) {
-//        FragmentTransaction transaction = getSupportFragmentManager()
-//                .beginTransaction()
-//                .replace(R.id.frame_home_fragmentcontainer, frag)
-//                .addToBackStack(null);
-//        // Commit the transaction
-//        transaction.commit();
-//    }
+
+    @Override
+    public void onListFragmentInteraction(SetListPost item) {
+        SetListPostFragment slpf = new SetListPostFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("setlistpost", item);
+        slpf.setArguments(args);
+        loadFragment(slpf);
+
+    }
+
+    @Override
+    public void onFullPostClicked(SetListPost setListPost) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(setListPost.getURL()));
+        startActivity(browserIntent);
+    }
+
 }

@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnL
         intent.putExtra(getString(R.string.keys_intent_jwt), jwt);
 
         startActivity(intent);
+        finish();
 //
 //        Bundle args = new Bundle();
 //        args.putSerializable("info", id.getEmail().toString());
@@ -90,7 +91,9 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnL
         args.putSerializable("info", id.getEmail() + ", " + id.getPassword());
         loginFragment.setArguments(args);
         FragmentTransaction transaction = getSupportFragmentManager()
-                .beginTransaction() .replace(R.id.frame_main_container, loginFragment) .addToBackStack(null);
+                .beginTransaction()
+                .replace(R.id.frame_main_container, loginFragment)
+                .addToBackStack(null);
         // Commit the transaction
         transaction.commit();
 
