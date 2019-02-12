@@ -21,5 +21,8 @@
     <string name="keys_json_blogs_teaser">teaser</string>
     <string name="keys_json_blogs_url">url</string>
     <string name="keys_json_reg_success">success</string>
+<<<<<<< HEAD
 
+=======
+>>>>>>> bbd0136b073379a155b34495dd655067c50ad96c
 </resources>

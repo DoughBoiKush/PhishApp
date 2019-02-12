@@ -25,11 +25,17 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+<<<<<<< HEAD:app/src/main/java/tcss450ajloria/uw/edu/phishapp/HomeActivity.java
 import me.pushy.sdk.Pushy;
 import tcss450ajloria.uw.edu.phishapp.blog.BlogPost;
 import tcss450ajloria.uw.edu.phishapp.model.Credentials;
 import tcss450ajloria.uw.edu.phishapp.setlist.SetListPost;
 import tcss450ajloria.uw.edu.phishapp.utils.GetAsyncTask;
+=======
+import tcss450.uw.edu.phishapp.blog.BlogPost;
+import tcss450.uw.edu.phishapp.setlist.SetListPost;
+import tcss450.uw.edu.phishapp.utils.GetAsyncTask;
+>>>>>>> bbd0136b073379a155b34495dd655067c50ad96c:app/src/main/java/tcss450/uw/edu/phishapp/HomeActivity.java
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
@@ -186,6 +192,7 @@ public class HomeActivity extends AppCompatActivity
                     .onPostExecute(this::handleSetListGetOnPostExecute)
                     .addHeaderField("authorization", mJwToken) //add the JWT as a header
                     .build().execute();
+<<<<<<< HEAD:app/src/main/java/tcss450ajloria/uw/edu/phishapp/HomeActivity.java
         } else if (id == R.id.nav_global_chat) {
             ChatFragment chat = new ChatFragment();
             Bundle args = new Bundle();
@@ -198,6 +205,8 @@ public class HomeActivity extends AppCompatActivity
             loadFragment(chat);
 
 
+=======
+>>>>>>> bbd0136b073379a155b34495dd655067c50ad96c:app/src/main/java/tcss450/uw/edu/phishapp/HomeActivity.java
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -353,10 +362,13 @@ public class HomeActivity extends AppCompatActivity
         transaction.commit();
     }
 
+<<<<<<< HEAD:app/src/main/java/tcss450ajloria/uw/edu/phishapp/HomeActivity.java
     private void logout() {
         new DeleteTokenAsyncTask().execute();
     }
 
+=======
+>>>>>>> bbd0136b073379a155b34495dd655067c50ad96c:app/src/main/java/tcss450/uw/edu/phishapp/HomeActivity.java
     @Override
     public void onListFragmentInteraction(SetListPost item) {
         SetListPostFragment slpf = new SetListPostFragment();
@@ -373,6 +385,7 @@ public class HomeActivity extends AppCompatActivity
         startActivity(browserIntent);
     }
 
+<<<<<<< HEAD:app/src/main/java/tcss450ajloria/uw/edu/phishapp/HomeActivity.java
     // Deleting the Pushy device token must be done asynchronously. Good thing
     // we have something that allows us to do that.
     class DeleteTokenAsyncTask extends AsyncTask<Void, Void, Void> {
@@ -410,4 +423,6 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
+=======
+>>>>>>> bbd0136b073379a155b34495dd655067c50ad96c:app/src/main/java/tcss450/uw/edu/phishapp/HomeActivity.java
 }

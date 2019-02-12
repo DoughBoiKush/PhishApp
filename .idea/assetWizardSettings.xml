@@ -18,7 +18,11 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
+<<<<<<< HEAD
                                       <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/communication/ic_textsms_black_24dp.xml" />
+=======
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/editor/ic_format_list_bulleted_black_24dp.xml" />
+>>>>>>> bbd0136b073379a155b34495dd655067c50ad96c
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,7 +32,11 @@
                         </option>
                         <option name="values">
                           <map>
+<<<<<<< HEAD
                             <entry key="outputName" value="ic_textsms_black_24dp" />
+=======
+                            <entry key="outputName" value="ic_set_list" />
+>>>>>>> bbd0136b073379a155b34495dd655067c50ad96c
                             <entry key="sourceFile" value="C:\Users\ajloria" />
                           </map>
                         </option>

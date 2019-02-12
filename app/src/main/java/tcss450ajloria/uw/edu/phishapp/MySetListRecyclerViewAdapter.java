@@ -1,4 +1,4 @@
-package tcss450ajloria.uw.edu.phishapp;
+package tcss450.uw.edu.phishapp;
 
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -7,13 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import tcss450ajloria.uw.edu.phishapp.SetListFragment.OnListFragmentInteractionListener;
-import tcss450ajloria.uw.edu.phishapp.setlist.SetListPost;
+import tcss450.uw.edu.phishapp.SetListFragment.OnListFragmentInteractionListener;
+import tcss450.uw.edu.phishapp.setlist.SetListPost;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link tcss450ajloria.uw.edu.phishapp.blog.BlogPost} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link tcss450.uw.edu.phishapp.blog.BlogPost} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */

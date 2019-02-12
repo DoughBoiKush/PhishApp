@@ -1,4 +1,4 @@
-package tcss450ajloria.uw.edu.phishapp;
+package tcss450.uw.edu.phishapp;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import tcss450ajloria.uw.edu.phishapp.setlist.SetListGenerator;
-import tcss450ajloria.uw.edu.phishapp.setlist.SetListPost;
+import tcss450.uw.edu.phishapp.setlist.SetListGenerator;
+import tcss450.uw.edu.phishapp.setlist.SetListPost;
 
 /**
  * A fragment representing a list of Items.

@@ -57,8 +57,11 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnL
 
         startActivity(intent);
         finish();
+<<<<<<< HEAD:app/src/main/java/tcss450ajloria/uw/edu/phishapp/MainActivity.java
 
 
+=======
+>>>>>>> bbd0136b073379a155b34495dd655067c50ad96c:app/src/main/java/tcss450/uw/edu/phishapp/MainActivity.java
 //
 //        Bundle args = new Bundle();
 //        args.putSerializable("info", id.getEmail().toString());

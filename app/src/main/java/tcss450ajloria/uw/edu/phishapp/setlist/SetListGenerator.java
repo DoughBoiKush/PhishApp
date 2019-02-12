@@ -1,4 +1,4 @@
-package tcss450ajloria.uw.edu.phishapp.setlist;
+package tcss450.uw.edu.phishapp.setlist;
 
 public final class SetListGenerator {
 

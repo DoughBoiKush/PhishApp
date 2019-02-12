@@ -11,12 +11,21 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+<<<<<<< HEAD:app/src/main/java/tcss450ajloria/uw/edu/phishapp/RegisterFragment.java
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import tcss450ajloria.uw.edu.phishapp.model.Credentials;
 import tcss450ajloria.uw.edu.phishapp.utils.SendPostAsyncTask;
+=======
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import tcss450.uw.edu.phishapp.model.Credentials;
+import tcss450.uw.edu.phishapp.utils.SendPostAsyncTask;
+>>>>>>> bbd0136b073379a155b34495dd655067c50ad96c:app/src/main/java/tcss450/uw/edu/phishapp/RegisterFragment.java
 
 /**
  * A simple {@link Fragment} subclass.

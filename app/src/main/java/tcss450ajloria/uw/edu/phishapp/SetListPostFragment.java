@@ -1,4 +1,4 @@
-package tcss450ajloria.uw.edu.phishapp;
+package tcss450.uw.edu.phishapp;
 
 
 import android.content.Context;
@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import tcss450ajloria.uw.edu.phishapp.setlist.SetListPost;
+import tcss450.uw.edu.phishapp.setlist.SetListPost;
 
 
 /**
